@@ -3,7 +3,9 @@ from movie_app.models import Director, Movie, Review
 from . import models
 
 class DirectorSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(min_length=2, max_length=100)
     movies_count = serializers.SerializerMethodField()
+
     class Meta:
         model = models.Director
         fields = ('id', 'name', 'movies_count')
@@ -17,6 +19,11 @@ class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Review
         fields = ('id', 'text', 'movie', 'star')
+
+class ReviewValiditySerializer(serializers.Serializer):
+    text = serializers.CharField()
+    star = serializers.IntegerField(min_value=1, max_value=5)
+    movie = serializers.IntegerField()
 
 
 class MovieSerializer(serializers.ModelSerializer):
@@ -35,3 +42,9 @@ class MovieSerializer(serializers.ModelSerializer):
             average = sum_reviews / len(reviews)
             return average
         return None
+
+class MovieValiditySerializer(serializers.Serializer):
+    title = serializers.CharField(min_length=2, max_length=100)
+    description = serializers.CharField()
+    duration = serializers.IntegerField(min_value=1)
+    director = serializers.IntegerField()
