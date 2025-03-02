@@ -34,7 +34,7 @@ class RegisterView(APIView):
         return Response(data={'user_id': user.id}, status=status.HTTP_201_CREATED)
 
 
-def LoginAPIView(APIView):
+class LoginAPIView(APIView):
     def post(self, request):
         serializer = serializers.LoginSerializer(data=request.data)
         if not serializer.is_valid():
